@@ -16,8 +16,9 @@ public class Manager extends Person{
     * @return: java.lang.String
     * @Author: Xiaocheng Liang
     */
-    public String seeAllTransaction(Customer customer, int day) {
-        String s = customer.getSavingAccount().getTransaction().getCustomerTransaction(day);
+    public String seeAllTransaction(Customer customer, boolean printAll) {
+        //String s = customer.getSavingAccount().getTransaction().getCustomerTransaction(day);
+        String s = customer.getSavingAccount().getTransaction().getCustomerTransaction(printAll);
         return s;
     }
 

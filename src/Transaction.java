@@ -13,6 +13,8 @@ public class Transaction {
     private List<String> currencyList;
     private List<Double> moneyList;
     private List<String> accountTypeList;
+    private List<Boolean> printedOrNotList;
+
     
     public Transaction() {
         this.dayList = new ArrayList<Integer>();
@@ -20,6 +22,7 @@ public class Transaction {
         this.currencyList = new ArrayList<String>();
         this.moneyList = new ArrayList<Double>();
         this.accountTypeList = new ArrayList<String>();
+        this.printedOrNotList = new ArrayList<Boolean>();
     }
 
     /**
@@ -33,6 +36,7 @@ public class Transaction {
         currencyList.add(currency);
         moneyList.add(money);
         accountTypeList.add(accountType);
+        printedOrNotList.add(false);
     }
 
     /**
@@ -55,5 +59,27 @@ public class Transaction {
         return s.toString();
     }
 
+    /**
+    * @Description:   get one cuntomer's transaction. If boolean printall == true: print all transaction of this customer
+     * If boolean printall == false: print all transaction that is after last printing.
+    * @Param: [printAll]
+    * @return: java.lang.String
+    */
+    public String getCustomerTransaction(boolean printAll) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < moneyList.size(); i++) {
+            if (printAll) {
+                s.append("The customer " + transactionTypeList.get(i)
+                        + " " + currencyList.get(i) + " " + moneyList.get(i));
+            } else {
+                if (!printedOrNotList.get(i)) {
+                    s.append("The customer " + transactionTypeList.get(i)
+                            + " " + currencyList.get(i) + " " + moneyList.get(i));
+                    printedOrNotList.set(i, true);
+                }
+            }
+        }
+        return toString();
+    }
 
 }
