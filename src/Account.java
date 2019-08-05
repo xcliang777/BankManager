@@ -10,6 +10,10 @@ public class Account {
     private double CADBalance;
     private double EURBalance;
     private Transaction transaction;
+    public static final String[] CURRENCIES = {"USD", "CAD", "EUR"};
+    public static final String[] ACTIONS = {"Deposit", "Withdraw"};
+    public static final String[] LOAN = {"Add Collateral", "Get Loan", "Repayment"};
+
 
     private final double payForWithdraw = 0.02;
 
@@ -69,7 +73,7 @@ public class Account {
     * @Param: [day, currency, money]
     * @return: boolean
     */
-    public boolean deposit(int day, String currency, double money) {
+    public boolean deposit(String currency, double money) {
         if (currency.equals("USD")) {
             USDBalance += money;
         }
@@ -82,7 +86,7 @@ public class Account {
             EURBalance += money;
         }
         String accountType = savingOrChecking();
-        transaction.addTransaction(day, "Deposit", currency, money, accountType);
+        transaction.addTransaction("Deposit: " + money + currency);
         return true;
     }
 
@@ -93,22 +97,24 @@ public class Account {
     * @Param: [day, currency, money]
     * @return: boolean
     */
-    public boolean withdraw(int day, String currency, double money) {
+    public boolean withdraw(String currency, double money) {
         double withdrawFee = money * payForWithdraw;
         if (currency.equals("USD")) {
-            if (money > USDBalance + withdrawFee) return false;
+            if (money + withdrawFee > USDBalance){
+                return false;
+            }
             USDBalance -= (money + withdrawFee);
         }
         if (currency.equals("CAD")) {
-            if (money > CADBalance + withdrawFee) return false;
+            if (money + withdrawFee > CADBalance) return false;
             CADBalance -= (money + withdrawFee);
         }
         if (currency.equals("EUR")) {
-            if (money > USDBalance + withdrawFee) return false;
+            if (money + withdrawFee > USDBalance) return false;
             EURBalance -= (money + withdrawFee);
         }
         String accountType = savingOrChecking();
-        transaction.addTransaction(day, "Withdraw", currency, money, accountType);
+        transaction.addTransaction("Withdraw: " + money + currency);
         return true;
     }
 
@@ -138,12 +144,6 @@ public class Account {
     * @Author: Xiaocheng Liang
     */
     private String savingOrChecking(){
-        boolean res;
-        res = this instanceof SavingAccount;
-        String accountType = res? "saving account" : "checking account";
-        return accountType;
+        return this instanceof SavingAccount ? "saving account" : "checking account";
     }
-
-
-
 }

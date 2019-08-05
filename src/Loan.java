@@ -10,6 +10,10 @@ public class Loan {
     private double arrears;
     private Transaction transaction;
 
+    public Transaction getTransaction() {
+        return transaction;
+    }
+
     private double loanRate = 1.1;
 
     public Loan() {
@@ -40,10 +44,11 @@ public class Loan {
     * @Param: [dayForLoan, loan]
     * @return: boolean
     */
-    public boolean setLoan(int dayforLoan, double loan) {
-        if (this.collateral >= loan) {
-            this.loan = loan;
-            transaction.addTransaction(dayforLoan, "Loan", "USD", loan, "loan");
+    public boolean setLoan(double loan) {
+        if (this.collateral >= (loan + this.loan)) {
+            this.loan += loan;
+            this.arrears = loan * Math.pow(loanRate, 5);
+            transaction.addTransaction("Loan: " + loan + "USD");
             return true;
         }
         return false;
@@ -55,12 +60,18 @@ public class Loan {
     * @Param: [dayForLoan, dayForRepayment]
     * @return: void
     */
-    public void repayment(int dayForLoan, int dayForRepayment) {
-        this.arrears = loan * Math.pow(loanRate, dayForRepayment - dayForLoan);
-        transaction.addTransaction(dayForRepayment, "Pay off", "USD", arrears, "loan");
+    public void repayment() {
+        this.arrears = loan * Math.pow(loanRate, 5);
+        transaction.addTransaction("Pay off: " + loan + "USD");
         this.loan = 0;
         this.arrears = 0;
     }
 
+    public double getArrears() {
+        return arrears;
+    }
 
+    public void setArrears(double arrears) {
+        this.arrears = arrears;
+    }
 }

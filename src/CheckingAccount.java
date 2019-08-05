@@ -12,8 +12,4 @@ public class CheckingAccount extends Account{
     public CheckingAccount(double USDBalance, double CADBalance, double EURBalance) {
         super(USDBalance, CADBalance, EURBalance);
     }
-
-
-
-
 }
