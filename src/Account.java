@@ -4,6 +4,7 @@
  * @author: Xiaocheng Liang
  * @create: 2019-07-25 12:28
  **/
+// test something
 public class Account {
 
     private double USDBalance;
